@@ -13,7 +13,16 @@ include 'hlavickaAdmin.php';
 	  <div class="collapse navbar-collapse " id="navbarNavSupportedContent">
 	    <ul class="navbar-nav ml-auto">
 	      <li class="nav-item">
+		  <?php
+		  session_start();
+    if(isset($_SESSION['odhlaseny'])) {
+        header('Location: index.php');
+        exit();
+    }
+	session_destroy();
+	?>
 			 
+
 	        <a class="nav-link text-light " href="../admin/index.php">Odhlásiť sa</a>
 	      </li>
 	    </ul>
