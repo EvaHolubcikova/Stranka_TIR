@@ -4,7 +4,7 @@
 	include 'pataAdmin.php';
 
 
-
+session_start();
     if(isset($_SESSION['prihlaseny'])) {
         header('Location: prihlaseny.php');
         exit();
@@ -34,6 +34,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
+
 <?php
         }
         else if (!$prihlasenie[$_POST['email-address']])
