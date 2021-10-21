@@ -16,14 +16,14 @@ include 'hlavickaAdmin.php';
 		  <?php
 		  session_start();
     if(isset($_SESSION['odhlaseny'])) {
-        header('Location: index.php');
+        header('Location: prihlaseny.php');
         exit();
-    }
-	session_destroy();
-	?>
+		session_destroy();
+
+    }?>
 			 
 
-	        <a class="nav-link text-light " href="../admin/index.php">Odhlásiť sa</a>
+	        <a class="nav-link text-light " href="../admin/odhlasenie.php">Odhlásiť sa</a>
 	      </li>
 	    </ul>
 	  </div>
