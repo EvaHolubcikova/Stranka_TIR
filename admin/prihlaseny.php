@@ -18,7 +18,6 @@ include 'hlavickaAdmin.php';
     if(isset($_SESSION['odhlaseny'])) {
         header('Location: prihlaseny.php');
         exit();
-		session_destroy();
 
     }?>
 			 
