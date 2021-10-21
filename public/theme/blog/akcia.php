@@ -1,6 +1,6 @@
-/*<?php
+/*<?php/*
 
-	/*function kontrola($polozka)
+	function kontrola($polozka)
 	{
 			$polozka = trim($polozka);
 			$polozka = htmlspecialchars($polozka);

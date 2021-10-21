@@ -1,5 +1,4 @@
 <?php 
-	error_reporting(0);
 	date_default_timezone_get('Europe/Bratislava');
 	include '../../assets/hlavicka.php';
 	include '../../assets/navbar.php';
