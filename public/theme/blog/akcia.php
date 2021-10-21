@@ -1,4 +1,4 @@
-/*<?php/*
+/*
 
 	function kontrola($polozka)
 	{
@@ -27,4 +27,3 @@
 		echo "zle";
 	
 	   header('Location:index.php');*/
-?>
