@@ -1,60 +1,74 @@
 <?php
-	include 'hlavickaAdmin.php';
-	include 'navbarAdmin.php';
-	include 'pataAdmin.php';
+
+$mysqli = new mysqli("localhost","Birt","XQx3cZyppArBmG2R","amongsus");
+
+// Check connection
+if ($mysqli -> connect_errno) {
+  echo "Failed to connect to MySQL: " . $mysqli -> connect_error;
+}
+
+
+
+    include 'hlavickaAdmin.php';
+    include 'navbarAdmin.php';
+    include 'pataAdmin.php';
 
 
 session_start();
-    if(isset($_SESSION['prihlaseny'])) {
+    if(isset($_SESSION['user'])) {
         header('Location: prihlaseny.php');
-        exit();
     }
+
 ?>
 <?php
 $chyba ="";
 
+
+
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
-     $uzivatelia = file('uzivatelia.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-     //$prihlasenie = [];
-        foreach ($uzivatelia as $uzivatel) {
-            list($k,$h) = explode('::', $uzivatel);
-               $prihlasenie[$k] = $h;
-                   }
+    //  $uzivatelia = file('uzivatelia.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    //  //$prihlasenie = [];
+    //     foreach ($uzivatelia as $uzivatel) {
+    //         list($k,$h) = explode('::', $uzivatel);
+    //            $prihlasenie[$k] = $h;
+    //                }
 
-        if($_POST['password'] === $prihlasenie[$_POST['email-address']])
-        {
-            $_SESSION['prihlaseny'] = 1;
-            header('Location: prihlaseny.php');
-            exit();
-            ?>
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
- <strong> Výborne... si prihlásený </strong> <?php echo "" ?>
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
+    $user = $_POST['email-address'];
+    $heslo = md5($_POST['password']);
 
-<?php
-        }
-        else if (!$prihlasenie[$_POST['email-address']])
-        {
-            ?>//uzivatel neexistuje
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
- <strong> Ups! </strong> <?php echo $chyba; ?>
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
-<?php
-        }
-        else {
-            //nespravne heslo...
+    $sql = 'SELECT * FROM uzivatelia WHERE login = "'.$user.'" AND heslo = "'.$heslo.'" ';
+    $result = $mysqli->query($sql);
+    
+    if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+        $_SESSION['user'] = $row["meno"];
+        $_SESSION['role'] = $row["rola"];
+    }
+        
+        header('Location: prihlaseny.php');
+        ?>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong> Výborne... si prihlásený </strong> <?php echo "" ?>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+    <?php
 
-        }
+    } else {
+    echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong> Ups! uzivatel neexistuje</strong> <?php echo $chyba; ?>
+     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+       <span aria-hidden="true">&times;</span>
+     </button>
+   </div>';
+    }
+
     }
  ?>
-<body style="background-color:powderblue;">
+<body style="background-color:white;">
 
     <div class="container mt-5">
         <div class="row justify-content-center">
@@ -73,7 +87,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                                             </svg>
                                         </span>
                                     </div>
-                                    <input type="text" id="email_address" class="form-control" name="email-address" required pattern="\S.{2,9}.[^()/><\][,;*_|]+">
+                                    <input type="text" id="email_address" class="form-control" name="email-address" required pattern="[^ ][\D|0-9]{3,9}">
 
                                     <div class="invalid-feedback">
                                       Prosím zadaj meno (5-20 znakov).
@@ -92,9 +106,10 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                                              </svg>
                                         </span>
                                     </div>
-                                    <input type="password" id="password" class="form-control" name="password" required pattern="(?=.*\d).{5,}" >
+                                    
+                                    <input type="password" class="form-control" id="password" name="password" required autocomplete="off" pattern="[^ ][\D|0-9]{3,9}">
                                     <div class="invalid-feedback">
-                                      Prosím zadaj heslo (minimálne 5 znakov)
+                                      Prosím zadaj heslo (minimálne 4 znaky)
                                     </div>
                                 </div>
 

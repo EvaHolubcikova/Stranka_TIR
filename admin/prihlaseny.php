@@ -28,6 +28,17 @@ include 'hlavickaAdmin.php';
 	  </div>
 	</nav>
 
+	<?php
+			  if(isset($_POST['signOut'])){
+				  unset($_SESSION['user']);
+				  unset($_SESSION['role']);
+				  header('Location: index.php');
+			  }
+			?>
+
+	<div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 300px;height: 1000px;">
+	<h2 style="color: white;"><?php echo $_SESSION["user"]; ?></h2>
+	  <h5 style="color: silver;"><?php echo $_SESSION["role"]; ?></h5>
 
 
 	<div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px;height: 881px;">
@@ -68,7 +79,6 @@ include 'hlavickaAdmin.php';
 	      </li>
 	    </ul>
 	</div>
-
 <?php
 include 'pataAdmin.php';
 ?>
