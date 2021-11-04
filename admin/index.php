@@ -59,7 +59,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
     } else {
     echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-    <strong> Ups! uzivatel neexistuje</strong> <?php echo $chyba; ?>
+    <strong> Ups! Nesprávne meno alebo heslo !</strong> <?php echo $chyba; ?>
      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
        <span aria-hidden="true">&times;</span>
      </button>
@@ -90,7 +90,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                                     <input type="text" id="email_address" class="form-control" name="email-address" required pattern="[^ ][\D|0-9]{3,9}">
 
                                     <div class="invalid-feedback">
-                                      Prosím zadaj meno (5-20 znakov).
+                                      Prosím zadaj meno.
                                     </div>
                                 </div>
 
