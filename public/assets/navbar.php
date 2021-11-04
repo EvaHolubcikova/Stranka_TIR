@@ -1,4 +1,3 @@
-
 <section class="container-fluid bg-dark">
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark container sticky-top">
     <a class="navbar-brand" href="#">Spojená škola Tvrdošín</a>
