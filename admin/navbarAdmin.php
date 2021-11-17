@@ -1,5 +1,5 @@
-<section class="container-fluid bg-dark">
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark container sticky-top">
+<section class="container-fluid" style="background-color:lightblue;">
+  <nav class="navbar navbar-expand-lg navbar-dark container sticky-top bg-dark">
     <a class="navbar-brand" href="#">Spojená škola Tvrdošín-Administrácia</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -23,7 +23,7 @@
               
           foreach ($menu as $odkaz => $hodnota) {
                 echo  '<li class="nav-item">
-                    <a class="nav-link '.($aktivnaStranka == $odkaz? 'active':'').'" href="' .$odkaz. '.php">'.$hodnota.'</a>
+                    <a class="nav-link" '.($aktivnaStranka == $odkaz? 'active':'').'" href="' .$odkaz. '.php">'.$hodnota.'</a>
                   </li>';
               }
            ?>  

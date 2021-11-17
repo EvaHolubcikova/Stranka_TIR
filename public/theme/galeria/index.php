@@ -3,6 +3,10 @@
 	include '../../assets/navbar.php';
 
  ?>
+ <style>
+	body{background-color: pink;
+	color: white;}
+</style>
  <section class="container">
  	<?php
  	$menuGaleria = array();
@@ -19,7 +23,7 @@
  	?>
  	<div class="row pt-5">
  		<div class="col-2">
- 			<nav class="nav flex-column nav-pills nav-fill bg-dark">
+ 			<nav class="nav flex-column nav-pills nav-fill" style="background-color:powderblue;">
  				<?php
  					foreach ($menuGaleria as $adresar=>$nazov) {
  			    		echo '<a class="nav-link '.($adresar == $galeria?" active":"").'" href ="?galeria='.$adresar.'">' . $nazov.'</a>'; 

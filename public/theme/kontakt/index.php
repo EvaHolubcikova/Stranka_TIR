@@ -2,8 +2,12 @@
 	include '../../assets/hlavicka.php';
 	include '../../assets/navbar.php'
  ?>
+ <style>
+	body{background-color: pink;
+	color: white;}
+</style>
 	<section>
-				<h1  style="color:black; text-shadow: 10px 10px 1px lightcoral; text-align: center; font-size: 1500%;">menu</h1>
+				<h1  style="color:black; text-align: center; font-size: 1500%;">kontakt</h1>
 		</section>
  <?php 
  	include '../../assets/pata.php'
