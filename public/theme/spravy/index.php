@@ -3,6 +3,10 @@
 	include '../../assets/hlavicka.php';
 	include '../../assets/navbar.php';
  ?>
+ <style>
+	body{background-color: pink;
+	color: white;}
+</style>
 <section class="container pt-4"> 
 		<h2 class="text-center pt-2"> Správy</h2>
 		<h5 class="text-center "><?php echo date('j.n.Y H:i:s') ?></h5>	
@@ -15,7 +19,7 @@
 			$clanok = file($subor,FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 		?>
 		<div>
-			<br><h5 style="color:black; text-shadow:1px 1px 2px lightseagreen";><?php echo $clanok[0] ?></h5>
+			<br><h5 style="color:black;";><?php echo $clanok[0] ?></h5>
 			<small>Publikované: <?php echo date('j.n.Y H:i',$datum) ?></small><br><br>
 			<img style="border-radius: 25px"; src="images/<?php echo $clanok[1] ?>" ; alt="" width=250><br><br>
 			<?php 	

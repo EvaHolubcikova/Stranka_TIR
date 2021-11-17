@@ -5,7 +5,10 @@
 	include '../../assets/rozne.php';
 
 ?>
-
+<style>
+	body{background-color: pink;
+	color: white;}
+</style>
 
 
 <?php 

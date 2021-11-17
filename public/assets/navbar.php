@@ -1,6 +1,6 @@
-<section class="container-fluid bg-dark">
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark container sticky-top">
-    <a class="navbar-brand" href="#">Spojená škola Tvrdošín</a>
+<section class="container-fluid" style="background-color:lightblue;">
+  <nav style="background-color:lightblue;" class="navbar navbar-expand-lg navbar-dark container sticky-top">
+    <a style="background-color:lightblue;" class="navbar-brand" href="#">Spojená škola Tvrdošín</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -17,14 +17,15 @@
                 list($k,$h) = explode('::', $riadok); 
                 $menu[$k] = $h;
               }
+              ?>
 
               
-          foreach ($menu as $odkaz => $hodnota) {
-                echo  '<li class="nav-item">
-                    <a class="nav-link '.($aktivnaStranka == $odkaz? 'active':'').'" href="' .$odkaz. '.php">'.$hodnota.'</a>
-                  </li>';
-              }
-           ?>  
+         <?foreach ($menu as $odkaz => $hodnota):?>
+                <li class="nav-item">
+                    <a class="nav-link" style="color: white; "  <?php if($odkaz == $aktivnaStranka):?>class="active"<?php endif;?> href ="<?php echo $odkaz;?>"> <?php echo $hodnota;?>
+                      </a>
+                    </li>
+                    <?php endforeach;?>
         </ul>
      </div>
   </nav>

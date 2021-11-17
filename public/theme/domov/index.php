@@ -3,6 +3,10 @@
 	include '../../assets/navbar.php';
  ?>
  <section class="container pt-4">
+ <style>
+	body{background-color: pink;
+	color: white;}
+</style>
 
 <?php
 
