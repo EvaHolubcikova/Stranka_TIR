@@ -8,7 +8,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto">
 
-          <?php
+        <?php
               $aktivnaStranka = basename(dirname($_SERVER['SCRIPT_NAME']));
 
               $riadky = file('../../assets/menu.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES); 
@@ -17,10 +17,9 @@
                 list($k,$h) = explode('::', $riadok); 
                 $menu[$k] = $h;
               }
-              ?>
-
+                  ?>
               
-         <?foreach ($menu as $odkaz => $hodnota):?>
+              <?php foreach ($menu as $odkaz => $hodnota):?>
                 <li class="nav-item">
                     <a class="nav-link" <?php if($odkaz == $aktivnaStranka):?>class="active"<?php endif;?> href ="<?php echo $odkaz;?>"> <?php echo $hodnota;?>
                       </a>
