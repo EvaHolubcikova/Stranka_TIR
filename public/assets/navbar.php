@@ -22,10 +22,20 @@
               
          <?foreach ($menu as $odkaz => $hodnota):?>
                 <li class="nav-item">
-                    <a class="nav-link" style="color: white; "  <?php if($odkaz == $aktivnaStranka):?>class="active"<?php endif;?> href ="<?php echo $odkaz;?>"> <?php echo $hodnota;?>
+                    <a class="nav-link" <?php if($odkaz == $aktivnaStranka):?>class="active"<?php endif;?> href ="<?php echo $odkaz;?>"> <?php echo $hodnota;?>
                       </a>
                     </li>
                     <?php endforeach;?>
+                    <?php
+
+              if($h == $aktivnaStranka){
+                ?> <div class="active">
+                  <?php echo $aktivnaStranka ?>
+
+                </div>
+                <?php
+              }
+              ?>
         </ul>
      </div>
   </nav>
