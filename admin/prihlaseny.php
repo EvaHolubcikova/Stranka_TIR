@@ -3,6 +3,19 @@ include 'hlavickaAdmin.php';
 //include 'navbarAdmin.php';
 ?>
 
+<?php
+$servername = "localhost";
+$username = "root";
+$password = "root";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password);
+
+// Check connection
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
+?>
 
 	<body style="background-color:powderblue;">
 
@@ -35,48 +48,37 @@ include 'hlavickaAdmin.php';
 				  header('Location: index.php');
 			  }
 			?>
-
-	<div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 300px;">
+<div>
+	<div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 300px; height:850px; float:left;">
 	<h2 style="color: white;"><?php echo $_SESSION["user"]; ?></h2>
 	  <h5 style="color: silver;"><?php echo $_SESSION["role"]; ?></h5>
+      </div>
 
 
-	<div class="p-3 text-white" style="width: 280px; height: 100%">
+	<div class="p-3 text-white" style="width: 1000px; height: 100%; padding: 10; margin: 0 auto; float:right;">
 	    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
 	    </a>
 	    <hr>
-		<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">First</th>
-      <th scope="col">Last</th>
-      <th scope="col">Handle</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>Larry</td>
-      <td>the Bird</td>
-      <td>@twitter</td>
-    </tr>
-  </tbody>
-</table>
+      <?php $connection = mysql_connect('localhost', 'root', 'root');
+          mysql_select_db('demo4C');
+
+        $query = "SELECT * FROM prispevky"; 
+        $result = mysql_query($query);
+
+        echo "<table class='table table-dark'"; 
+
+          while($row = mysql_fetch_array($result)){   //Creates a loop to loop through results
+        echo "<tr><td>" . $row['meno'] . "</td><td>" . $row['prispevok'] . "</td></tr>";  //$row['index'] the index here is a field name
+        }
+
+        echo "</table>"; //Close the table in HTML
+
+        mysql_close(); //Make sure to close out the database connection
+
+?>
 	    
 	</div>
+  </div>
 <?php
 include 'pataAdmin.php';
 ?>
