@@ -4,6 +4,15 @@
 	include '../../assets/navbar.php';
 	include '../../assets/rozne.php';
 
+	$success = '';
+
+	$mysqli = new mysqli("localhost","root","root","demo4c");
+	$mysqli -> set_charset("utf8");
+  
+	$sql = 'SELECT * FROM prispevky ORDER BY cas DESC';
+	  $result = $mysqli->query($sql);
+  
+
 ?>
 <style>
 	body{background-color: pink;
@@ -35,9 +44,17 @@ $novyPrispevok[] = kontrola($_POST['meno']);
 $novyPrispevok[] = kontrola($_POST['sprava']);
 $novyPrispevok[] = date('Y-m-d H:i:s',time());
 
+$sql = 'INSERT INTO prispevky (meno, prispevok, cas) VALUES ("'.kontrola($_POST['meno']).'", "'.kontrola($_POST['sprava']).'", "'.date('Y-m-d H:i:s', time() ).'")';
+          echo $sql;
+          $mysqli->query($sql);
+          $success .= 'true';
 
-fputcsv($suborPrispevky, $novyPrispevok, ';');
+          unset($_POST);
+			    header("Location: " . $_SERVER['PHP_SELF']);
+
+ fputcsv($suborPrispevky, $novyPrispevok, ';');
 fclose($suborPrispevky);
+
 }
 else
 {
@@ -97,9 +114,8 @@ if(empty($chyba)){
 
 
 	$vybranyKluc = array_rand($antiSpam);
-	//echo $vybranyKluc;
-
-	//$prispevky = [];
+	
+	$prispevky = [];
 	$suborPrispevky = fopen('prispevky.csv', 'r');
 
 	while($prispevok = fgetcsv($suborPrispevky,1000,';')){
@@ -122,16 +138,14 @@ if(empty($chyba)){
 		<form action="index.php"  method="post">
 			<div class="form-group was-validated">
 				<small id="emailHelp" class="form-text text-muted"><b>Meno</b></small>
-				<input type="text" placeholder="Meno autora" class="form-control" required autocomplete="" 	pattern="\S.{4,20}" name="meno"  value="<?php echo $meno ?>"> 
+				<input type="text" placeholder="Meno autora" class="form-control" required autocomplete="" 	pattern="\S.{2,20}" name="meno"  value="<?php echo $meno ?>"> 
 				<div class="invalid-feedback">
-					Prosím vyplňte túto položku (5-20 znakov)
+					Prosím vyplňte túto položku (3-20 znakov)
 				</div>
-			</div>
-		
-			
+			</div>			
 			<div class="form-group ">
 				 <small id="emailHelp" class="form-text text-muted"><b>Správa</b></small>
-				<textarea name="sprava"  cols="98" rows="5" placeholder="Váš text" class="form-control" required> <?php echo $sprava ?> </textarea>
+				<textarea name="sprava"  cols="98" rows="5" placeholder="Váš text" class="form-control" required><?php echo $sprava ?></textarea>
 			</div>
 		
 			<div class="form-group">
@@ -160,22 +174,21 @@ if(empty($chyba)){
 
 	<hr class="border-dark"> 
 	<div class="container">
-		<?php 
-			foreach ($prispevky as $prispevok) {
-				$datum = strtotime($prispevok[3]);
-				$datumTxt = date('j. ', $datum) .$mesiace[date('n', $datum) - 1]. date(' Y H:i', $datum); 
-			
-		 ?>	
-			<h4><?php echo $prispevok[1] ?></h4>
-			<small><i> Odoslane: <?php echo $datumTxt ?></i></small>
+ 		<?php
+    if ($result->num_rows > 0) {
+			while($row = $result->fetch_assoc()) {
+		 ?>
+			<h4><?= $row["meno"] ?></h4>
+			<small><i> Odoslane: <?= $row["cas"] ?></i></small>
 			<p>
-				<?php echo prelozBBCode(nl2br($prispevok[2])) ?>
+				<?php echo prelozBBCode(nl2br($row["prispevok"])) ?>
 			</p>
 			<hr>
-		<?php 
+		<?php
 			}
-		 ?>
-	</div>
+		}
+    ?>
+ 	</div>
 </section>
 
 <?php 

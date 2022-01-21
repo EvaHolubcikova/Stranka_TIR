@@ -1,49 +1,40 @@
 <?php
-
-$mysqli = new mysqli("localhost","root","root","uzivatelia");
-
-// Check connection
-if ($mysqli -> connect_errno) {
-  echo "Failed to connect to MySQL: " . $mysqli -> connect_error;
-}
     include 'hlavickaAdmin.php';
     include 'navbarAdmin.php';
     include 'pataAdmin.php';
 
+$mysqli = new mysqli("localhost","root","root","uzivatelia");
+$mysqli -> set_charset("utf8");
+// Check connection
+if ($mysqli -> connect_errno) {
+  echo "Failed to connect to MySQL: " . $mysqli -> connect_error;
+}
 
 session_start();
     if(isset($_SESSION['user'])) {
         header('Location: prihlaseny.php');
     }
-
 ?>
 <?php
 $chyba ="";
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
-
-    //  $uzivatelia = file('uzivatelia.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-    //  //$prihlasenie = [];
-    //     foreach ($uzivatelia as $uzivatel) {
-    //         list($k,$h) = explode('::', $uzivatel);
-    //            $prihlasenie[$k] = $h;
-    //                }
 
     $user = $_POST['email-address'];
     $heslo = md5($_POST['password']);
 
     $sql = 'SELECT * FROM uzivatelia WHERE login = "'.$user.'" AND heslo = "'.$heslo.'" ';
     $result = $mysqli->query($sql);
-    
+
     if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc(); 
+        $row = $result->fetch_assoc();
         $_SESSION['user'] = $row["meno"];
         $_SESSION['role'] = $row["rola"];
-    
-        
+
         header('Location: prihlaseny.php');
-        ?>
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong> Výborne... si prihlásený </strong> <?php echo "" ?>
+?>
+
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong> Prihlásenie úspešné</strong> <?php echo "" ?>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
         </button>
@@ -52,7 +43,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
     } else {
     echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-    <strong> Ups! uzivatel neexistuje</strong> <?php echo $chyba; ?>
+    <strong> Ups! Nesprávne meno alebo heslo !</strong> <?php echo $chyba; ?>
      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
        <span aria-hidden="true">&times;</span>
      </button>
