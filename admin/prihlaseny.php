@@ -1,20 +1,25 @@
 <?php
 include 'hlavickaAdmin.php';
 //include 'navbarAdmin.php';
-?>
+include 'rozne.php';
 
-<?php
-$servername = "localhost";
-$username = "root";
-$password = "root";
+$mysqli= new mysqli("localhost","root","vertrigo","prispevky");
+  $mysqli -> set_charset("utf8");
 
-// Create connection
-$conn = new mysqli($servername, $username, $password);
+  $sql = 'SELECT * FROM prispevky';
+  $result = $mysqli->query($sql);
 
-// Check connection
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
+
+session_start();
+if(isset($_SESSION['user'])) {
+ if( isset($_GET['delete'])){
+
+			$id = $_GET['delete'];
+
+			$sql = "DELETE FROM prispevky WHERE id=$id";
+			$mysqli->query($sql);
+			header("Location: prihlaseny.php?page=blog");
+		}
 ?>
 
 	<body style="background-color:powderblue;">
@@ -22,102 +27,116 @@ if ($conn->connect_error) {
 	
 
 	<nav class="navbar navbar-expand-lg navbar-light bg-dark">
-	  <a  class="navbar text-white" href="#">Admin</a>
-	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-	  </button>
-	  <div class="collapse navbar-collapse " id="navbarNavSupportedContent">
-	    <ul class="navbar-nav ml-auto">
+	 	  <div class="collapse navbar-collapse " id="navbarNavSupportedContent">
+       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 	      <li class="nav-item">
-		  <?php
-		  session_start();
-    if(isset($_SESSION['odhlaseny'])) {
-        header('Location: prihlaseny.php');
-        exit();
-
-    }?>
-			 
-
-	        <a class="nav-link text-light " href="../admin/odhlasenie.php">Odhlásiť sa</a>
+	        <a class="nav-link text-light text-right" href="../admin/odhlasenie.php">Odhlásiť sa</a>
 	      </li>
 	    </ul>
 	  </div>
 	</nav>
+	<div class="row">
+    <div class="col-md-2">
+      	<div class="d-flex flex-column flex-shrink-0 p-3 text-dark bg-dark" style="height: 900px;">
+          <h2 style="color: white;"><?php echo $_SESSION["user"]; ?></h2>
+            <h5 style="color: grey;"><?php echo $_SESSION["role"]; ?></h5>
+              <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+              <img src="" alt="">
+              </a>
+              <hr>
+              <ul class="nav nav-pills flex-column mb-auto">
+                <li class="nav-item">
+                  <a href="prihlaseny.php" class="nav-link  text-white" aria-current="page">
+                    Domov
+                  </a>
+                </li>
+                
+                <li class="pb-3">
+                  <a href="prihlaseny.php?page=blog" class="nav-link text-white">
+                    Blog
+                  </a>
+                </li>
+              </ul>
+    </div>
+    </div>
+    <div class="col-md-10 pt-5 pb-5">
+      <?php
+        if (isset($_GET['page']) && $_GET['page'] == 'blog') {
+      ?>
+          <table class="mt-2 table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Meno</th>
+                <th scope="col">Text</th>
+                <th scope="col">Čas</th>
+                <th scope="col">Akcie</th>
+              </tr>
+            </thead>
+              <tbody>
+            <?php while($row = $result->fetch_assoc()) {	?>
+              <tr>
+                <td><?= $row["meno"] ?></td>
+                <td><?= prelozBBCode($row["prispevok"]) ?></td>
+                <td><?= $row["cas"] ?></td>
+          <td><a type="button" data-bs-id="<?= $row["id"] ?>" data-bs-name="<?= $row["meno"] ?>" class=" btn btn-dark text-white" data-bs-toggle="modal" data-bs-target="#deleteModal">Zmazať</a></td>
+    </tr>
+  <?php } ?>
+    </tbody>
+  </table>
 
-	<?php
-			  if(isset($_POST['signOut'])){
-				  unset($_SESSION['user']);
-				  unset($_SESSION['role']);
-				 // header('Location: index.php');
-			  }
-			?>
-<div>
-	<div class="d-flex flex-column flex-shrink-0 p-3 text-dark bg-dark" style="position: absolute; width: 15%; height:94%; float:left;">
-	<h2 style="color: white;"><?php echo $_SESSION["user"]; ?></h2>
-	  <h5 style="color: silver;"><?php echo $_SESSION["role"]; ?></h5>
+  <div class="modal fade m" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Zmazať článok?</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Naozaj chcete zmazať článok od autora: <span id="spanName"></span>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zavrieť</button>
+          <a id="btn-remove" class="btn btn-danger" data-bs-target="#deleteModal">Zmazať</a>
+        </div>
       </div>
-	  <section class="container-fluid" style="position: absolute; left:10px; color:black;" >
-  <nav class="navbar navbar-expand-lg navbar-dark container sticky-left justify-content-end">
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <nav class="navbar navbar-expand-lg navbar-light">
-	  <a  class="navbar text-white" href="#">Admin</a>
-	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-	  </button>
-    
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ml-auto">
-
-          <?php
-              $aktivnaStranka = basename(dirname($_SERVER['SCRIPT_NAME']));
-
-        //      $menu = [];
-
-              $riadky = file('../admin/menuAdmin.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES); 
-
-              foreach ($riadky as  $riadok) {
-                list($k,$h) = explode('::', $riadok); 
-                $menu[$k] = $h;
-              }
-
-              
-          foreach ($menu as $odkaz => $hodnota) {
-                echo  '<li class="nav-item">
-                    <a class="nav-link" '.($aktivnaStranka == $odkaz? 'active':'').'" href="' .$odkaz. '.php">'.$hodnota.'</a>
-                  </li>';
-              }
-           ?>  
-        </ul>
-     </div>
-  </nav>
-</section>
-
-
-
+    </div>
   </div>
-  	<div class="p-3 text-white" style="position: absolute; bottom: 10px; width: 50%; right: 10px;">
-	    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-	    </a>
-	    <hr>
-      <?php $connection = mysql_connect('localhost', 'root', 'root');
-          mysql_select_db('demo4c');
 
-        $query = "SELECT * FROM prispevky"; 
-        $result = mysql_query($query);
 
-        echo "<table class='table table-dark'"; 
+  <script>
+    var myModal = document.getElementById('deleteModal')
+    myModal.addEventListener('shown.bs.modal', function (event) {
+        let BtnClick = event.relatedTarget;
 
-          while($row = mysql_fetch_array($result)){   //Creates a loop to loop through results
-        echo "<tr><td>" . $row['meno'] . "</td><td>" . $row['prispevok'] . "</td></tr>";  //$row['index'] the index here is a field name
+        let id = BtnClick.getAttribute('data-bs-id');
+
+        let Name = BtnClick.getAttribute('data-bs-name');
+        document.getElementById('spanName').innerHTML = Name;
+
+        let link = "?page=blog&delete="+id;
+
+        document.getElementById('btn-remove').href = link;
+    })
+
+  </script>
+      <?php
+        }else{
+      ?>
+        <p>Vitajte v administrácii</p>
+      <?php
         }
+      ?>
+    </div>
+  </div>
 
-        echo "</table>"; //Close the table in HTML
 
-        mysql_close(); //Make sure to close out the database connection
 
-?>
+
 	    
-	</div>
 <?php
+}
+else{
+	header("Location: index.php");
+}
 include 'pataAdmin.php';
 ?>

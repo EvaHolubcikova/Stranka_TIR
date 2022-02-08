@@ -6,7 +6,7 @@
 
 	$success = '';
 
-	$mysqli = new mysqli("localhost","root","root","demo4c");
+	$mysqli = new mysqli("localhost","root","vertrigo","prispevky");
 	$mysqli -> set_charset("utf8");
   
 	$sql = 'SELECT * FROM prispevky ORDER BY cas DESC';

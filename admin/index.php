@@ -3,7 +3,7 @@
     include 'navbarAdmin.php';
     include 'pataAdmin.php';
 
-$mysqli = new mysqli("localhost","root","root","uzivatelia");
+$mysqli = new mysqli("localhost","root","vertrigo","amongsus");
 $mysqli -> set_charset("utf8");
 // Check connection
 if ($mysqli -> connect_errno) {
@@ -14,6 +14,9 @@ session_start();
     if(isset($_SESSION['user'])) {
         header('Location: prihlaseny.php');
     }
+
+
+
 ?>
 <?php
 $chyba ="";
